@@ -1,4 +1,4 @@
-describe('$mdDialog', function() {
+ddescribe('$mdDialog', function() {
   var triggerAnimation;
 
   beforeEach(module('material.components.dialog', 'ngAnimateMock'));
@@ -17,13 +17,9 @@ describe('$mdDialog', function() {
   beforeEach(inject(function($rootScope, $timeout, $$rAF){
 
     triggerAnimation = function() {
-      try {
-        $timeout.flush();
-        $rootScope.$apply();
-        $$rAF.flush();
-      } finally {
-        $timeout.flush();
-      }
+        $timeout.flush(); // flush to start animations
+        $$rAF.flush();    // flush animations
+        $timeout.flush(); // flush responses after animation completions
     }
   }));
 
