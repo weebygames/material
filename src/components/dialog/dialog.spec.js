@@ -14,11 +14,12 @@ describe('$mdDialog', function () {
       return $$q.when();
     });
   }));
-  beforeEach(inject(function ($rootScope, $timeout, $$rAF) {
+  beforeEach(inject(function ($rootScope, $timeout, $$rAF, $animate) {
 
     runAnimation = function () {
       $timeout.flush(); // flush to start animations
       $$rAF.flush();    // flush animations
+      $animate.triggerCallbacks();
       $timeout.flush(); // flush responses after animation completions
     }
   }));
