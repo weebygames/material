@@ -101,12 +101,12 @@ function MenuProvider($$interimElementProvider) {
       // Register various listeners to move menu on resize/orientation change
       opts.cleanupResizing = startRepositioningOnResize();
       opts.hideBackdrop = showBackdrop(scope, element, opts);
+      opts.cleanupInteraction = activateInteraction();
 
       // Return the promise for when our menu is done animating in
       return showMenu()
         .then(function(response) {
           opts.alreadyOpen = true;
-          opts.cleanupInteraction = activateInteraction();
           return response;
         });
 

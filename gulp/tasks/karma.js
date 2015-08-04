@@ -11,8 +11,8 @@ exports.task = function (done) {
   var errorCount = 0;
   var karmaConfig = {
     logLevel: 'warn',
-    singleRun: true,
-    autoWatch: false,
+    singleRun: false,
+    autoWatch: true,
     configFile: ROOT + '/config/karma.conf.js'
   };
 
@@ -40,7 +40,7 @@ exports.task = function (done) {
   if ( args.browsers ) {
     karmaConfig.browsers = args.browsers.trim().split(',');
   } else {
-    karmaConfig.browsers = ['Firefox', 'PhantomJS'];
+    karmaConfig.browsers = ['Chrome'];
   }
 
   if ( args.reporters ) {

@@ -83,7 +83,7 @@ describe('<md-tooltip> directive', function() {
 
   describe('show and hide', function() {
 
-    it('should show and hide when visible is set',  function() {
+    it('should show and hide when visible is set', inject(function($rootScope, $$rAF) {
 
       expect(findTooltip().length).toBe(0);
 
@@ -96,16 +96,17 @@ describe('<md-tooltip> directive', function() {
         '</md-button>'
       );
 
-
       showTooltip(true);
 
       expect(findTooltip().length).toBe(1);
       expect(findTooltip().hasClass('md-show')).toBe(true);
 
       showTooltip(false);
+      $rootScope.$digest();
+      $$rAF.flush();
 
       expect(findTooltip().length).toBe(0);
-    });
+    }));
 
     it('should set visible on mouseenter and mouseleave', function() {
         buildTooltip(

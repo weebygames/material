@@ -184,17 +184,21 @@ function MdTooltipDirective($timeout, $window, $$rAF, $document, $mdUtil, $mdThe
       }
 
       positionTooltip();
+      element.addClass('matias');
       angular.forEach([element, background, content], function (element) {
         $animate.addClass(element, 'md-show');
       });
     }
 
     function hideTooltip() {
-      $q.all([
-        $animate.removeClass(content, 'md-show'),
-        $animate.removeClass(background, 'md-show'),
-        $animate.removeClass(element, 'md-show')
-      ]).then(function () {
+      var promises = [];
+      angular.forEach([element, background, content], function (elm) {
+        if (elm.parent() && elm.hasClass('md-show')) {
+          promises.push(elm);
+        }
+      })
+
+      $q.all(promises).then(function () {
         if (!scope.visible) element.detach();
       });
     }

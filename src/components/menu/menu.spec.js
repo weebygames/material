@@ -1,4 +1,4 @@
-ddescribe('md-menu directive', function() {
+describe('md-menu directive', function() {
   var $mdMenu, $timeout, something;
 
   beforeEach(module('material.components.menu', 'ngAnimateMock'));
@@ -29,6 +29,7 @@ ddescribe('md-menu directive', function() {
   it('opens on click', function() {
     var menu = setup();
     openMenu(menu);
+    waitForMenuOpen();
     expect(getOpenMenuContainer().length).toBe(1);
     closeMenu(menu);
     expect(getOpenMenuContainer().length).toBe(0);
@@ -41,13 +42,15 @@ ddescribe('md-menu directive', function() {
     });
 
     openMenu(menu);
+    waitForMenuOpen();
     expect(clickDetected).toBe(false);
     closeMenu(menu);
     expect(clickDetected).toBe(false);
   });
 
-  iit('closes on backdrop click', inject(function($document) {
+  it('closes on backdrop click', inject(function($document, $$rAF) {
     openMenu(setup());
+    waitForMenuOpen();
 
     expect(getOpenMenuContainer().length).toBe(1);
 
@@ -59,6 +62,8 @@ ddescribe('md-menu directive', function() {
 
   it('closes on escape', inject(function($document, $mdConstant) {
     openMenu(setup());
+    waitForMenuOpen();
+
     expect(getOpenMenuContainer().length).toBe(1);
 
     var openMenuEl = $document[0].querySelector('md-menu-content');
@@ -74,6 +79,7 @@ ddescribe('md-menu directive', function() {
       expect(getOpenMenuContainer().length).toBe(0);
 
       openMenu(setup());
+      waitForMenuOpen();
 
       expect(something).toBeFalsy();
       expect(getOpenMenuContainer().length).toBe(1);
@@ -112,6 +118,8 @@ ddescribe('md-menu directive', function() {
             '</md-menu>';
 
           openMenu($compile(template)($rootScope));
+          waitForMenuOpen();
+
           expect(getOpenMenuContainer().length).toBe(1);
 
           var btn = getOpenMenuContainer()[0].querySelector('md-button');
@@ -146,6 +154,7 @@ ddescribe('md-menu directive', function() {
         something = true;
       };
       menu = $compile(template)($rootScope);
+      $rootScope.$digest();
     });
 
     return menu;

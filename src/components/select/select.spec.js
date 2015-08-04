@@ -125,6 +125,7 @@ describe('<md-select>', function() {
     };
     var select = setupSelect('ng-model="val", md-on-close="onClose()"', [1, 2, 3]).find('md-select');
     openSelect(select);
+    waitForSelectOpen();
 
     // Simulate click bubble from option to select menu handler
     select.triggerHandler({
@@ -701,9 +702,11 @@ describe('<md-select>', function() {
       expect($log.warn).not.toHaveBeenCalled();
     }));
 
-    it('sets up the aria-expanded attribute', inject(function($document) {
+    it('sets up the aria-expanded attribute', inject(function($document, $rootScope) {
       expect(el.attr('aria-expanded')).toBe('false');
       openSelect(el);
+      waitForSelectOpen();
+      $rootScope.$digest();
       expect(el.attr('aria-expanded')).toBe('true');
 
       var selectMenu = $document.find('md-select-menu');
@@ -781,6 +784,8 @@ describe('<md-select>', function() {
       it('can be closed with escape', inject(function($document, $rootScope, $animate) {
         var el = setupSelect('ng-model="someVal"', [1, 2, 3]).find('md-select');
         openSelect(el);
+        waitForSelectOpen();
+        $rootScope.$digest();
         var selectMenu = angular.element($document.find('md-select-menu'));
         expect(selectMenu.length).toBe(1);
         pressKey(selectMenu, 27);
