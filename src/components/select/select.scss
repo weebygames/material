@@ -28,11 +28,11 @@ $select-max-visible-options: 5;
     opacity: 1;
     md-select-menu {
       transition: $swift-ease-out;
-      transition-duration: 150ms;
+      transition-duration: 100ms;
       > * {
         opacity: 1;
         transition: $swift-ease-in;
-        transition-duration: 150ms;
+        transition-duration: 25ms;
         transition-delay: 100ms;
       }
     }
@@ -42,7 +42,7 @@ $select-max-visible-options: 5;
   &.md-leave {
     opacity: 0;
     transition: $swift-ease-in;
-    transition-duration: 250ms;
+    transition-duration: 50ms;
   }
 }
 
