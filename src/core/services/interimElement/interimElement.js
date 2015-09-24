@@ -281,6 +281,9 @@ function InterimElementProvider() {
        */
       function show(options) {
         options = options || {};
+
+        options.skipHide = true;
+
         var interimElement = new InterimElement(options || {});
         var hideExisting = !options.skipHide && stack.length ? service.hide() : $q.when(true);
 
@@ -356,7 +359,7 @@ function InterimElementProvider() {
        *
        */
       function cancel(reason, options) {
-        var interim = stack.shift();
+        var interim = stack.pop();
         if ( !interim ) return $q.when(reason || SHOW_CANCELLED);
 
         interim
@@ -373,7 +376,7 @@ function InterimElementProvider() {
        * Special method to quick-remove the interim element without animations
        */
       function destroy() {
-        var interim = stack.shift();
+        var interim = stack.pop();
 
         return interim ? interim.remove(SHOW_CANCELLED, false, {'$destroy':true}) :
                $q.when(SHOW_CANCELLED);
@@ -389,12 +392,17 @@ function InterimElementProvider() {
 
         options = configureScopeAndTransitions(options);
 
-        return self = {
+        self = {
           options : options,
           deferred: $q.defer(),
           show    : createAndTransitionIn,
           remove  : transitionOutAndRemove
         };
+
+        options.stack = stack;
+        options.interimElement = self;
+
+        return self;
 
         /**
          * Compile, link, and show this interim element

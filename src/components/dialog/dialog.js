@@ -626,7 +626,9 @@ function MdDialogProvider($$interimElementProvider) {
             ev.stopPropagation();
             ev.preventDefault();
 
-            smartClose();
+            if (options.stack.indexOf(options.interimElement) === 0) {
+              smartClose();
+            }
           }
         };
 
